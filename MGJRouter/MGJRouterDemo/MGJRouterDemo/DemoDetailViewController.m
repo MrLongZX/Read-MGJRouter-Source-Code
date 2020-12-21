@@ -197,46 +197,46 @@
 
 - (void)demoCompletion
 {
-[MGJRouter registerURLPattern:@"mgj://detail" toHandler:^(NSDictionary *routerParameters) {
-    NSLog(@"匹配到了 url, 一会会执行 Completion Block");
+    [MGJRouter registerURLPattern:@"mgj://detail" toHandler:^(NSDictionary *routerParameters) {
+        NSLog(@"匹配到了 url, 一会会执行 Completion Block");
+        
+        // 模拟 push 一个 VC
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            void (^completion)(id result) = routerParameters[MGJRouterParameterCompletion];
+            if (completion) {
+                completion(nil);
+            }
+        });
+    }];
     
-    // 模拟 push 一个 VC
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        void (^completion)(id result) = routerParameters[MGJRouterParameterCompletion];
-        if (completion) {
-            completion(nil);
-        }
-    });
-}];
-
-[MGJRouter openURL:@"mgj://detail" withUserInfo:nil completion:^(id result){
-    [self appendLog:@"Open 结束，我是 Completion Block"];
-}];
+    [MGJRouter openURL:@"mgj://detail" withUserInfo:nil completion:^(id result){
+        [self appendLog:@"Open 结束，我是 Completion Block"];
+    }];
 }
 
 - (void)demoGenerateURL
 {
 #define TEMPLATE_URL @"mgj://search/:keyword"
     
-[MGJRouter registerURLPattern:TEMPLATE_URL  toHandler:^(NSDictionary *routerParameters) {
-    NSLog(@"routerParameters[keyword]:%@", routerParameters[@"keyword"]); // Hangzhou
-}];
-
-[MGJRouter openURL:[MGJRouter generateURLWithPattern:TEMPLATE_URL parameters:@[@"Hangzhou"]]];
+    [MGJRouter registerURLPattern:TEMPLATE_URL  toHandler:^(NSDictionary *routerParameters) {
+        NSLog(@"routerParameters[keyword]:%@", routerParameters[@"keyword"]); // Hangzhou
+    }];
+    
+    [MGJRouter openURL:[MGJRouter generateURLWithPattern:TEMPLATE_URL parameters:@[@"Hangzhou"]]];
 }
 
 - (void)demoDeregisterURLPattern
 {
-#define TEMPLATE_URL @"mgj://search/:keyword"
+#define K_TEMPLATE_URL @"mgj://search/:keyword/:id"
     
-    [MGJRouter registerURLPattern:TEMPLATE_URL  toHandler:^(NSDictionary *routerParameters) {
+    [MGJRouter registerURLPattern:K_TEMPLATE_URL  toHandler:^(NSDictionary *routerParameters) {
         NSAssert(NO, @"这里不会被触发");
         NSLog(@"routerParameters[keyword]:%@", routerParameters[@"keyword"]); // Hangzhou
     }];
     
-    [MGJRouter deregisterURLPattern:TEMPLATE_URL];
-
-    NSString *url = [MGJRouter generateURLWithPattern:TEMPLATE_URL parameters:@[@"Hangzhou"]];
+    [MGJRouter deregisterURLPattern:K_TEMPLATE_URL];
+    
+    NSString *url = [MGJRouter generateURLWithPattern:K_TEMPLATE_URL parameters:@[@"Hangzhou",@"10086"]];
     [MGJRouter openURL:url];
     
     [self appendLog:@"如果没有运行到断点，就表示取消注册成功了"];

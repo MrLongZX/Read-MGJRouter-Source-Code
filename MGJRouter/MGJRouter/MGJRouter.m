@@ -140,11 +140,15 @@ NSString *const MGJRouterParameterUserInfo = @"MGJRouterParameterUserInfo";
                 startIndexOfColon = 0;
             }
         }
-        // 
+        // 冒号存在，当前是pattern最后一个字符
         if (i == pattern.length - 1 && startIndexOfColon) {
+            // 范围，从冒号到pattern最后一个字符
             NSRange range = NSMakeRange(startIndexOfColon, i - startIndexOfColon + 1);
+            // 获取占位符
             NSString *placeholder = [pattern substringWithRange:range];
+            // 占位符中不存在指定字符串中的字符
             if (![self checkIfContainsSpecialCharacter:placeholder]) {
+                // 添加到占位符数组
                 [placeholders addObject:placeholder];
             }
         }
@@ -152,37 +156,50 @@ NSString *const MGJRouterParameterUserInfo = @"MGJRouterParameterUserInfo";
     
     __block NSString *parsedResult = pattern;
     
+    // 遍历占位符数组
     [placeholders enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        // 数组防越界处理
         idx = parameters.count > idx ? idx : parameters.count - 1;
+        // 参数 替换 占位符
         parsedResult = [parsedResult stringByReplacingOccurrencesOfString:obj withString:parameters[idx]];
     }];
     
     return parsedResult;
 }
 
+// 查找谁对某个 URL 感兴趣，如果有的话，返回一个 object
 + (id)objectForURL:(NSString *)URL withUserInfo:(NSDictionary *)userInfo
 {
     MGJRouter *router = [MGJRouter sharedInstance];
     
+    // 编码
     URL = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    // 提取数据
     NSMutableDictionary *parameters = [router extractParametersFromURL:URL matchExactly:NO];
+    // 执行的block
     MGJRouterObjectHandler handler = parameters[@"block"];
     
+    // block存在
     if (handler) {
+        // 添加用户信息
         if (userInfo) {
             parameters[MGJRouterParameterUserInfo] = userInfo;
         }
+        // 移除block数据
         [parameters removeObjectForKey:@"block"];
+        // 执行block
         return handler(parameters);
     }
     return nil;
 }
 
+// 查找谁对某个 URL 感兴趣，如果有的话，返回一个 object
 + (id)objectForURL:(NSString *)URL
 {
     return [self objectForURL:URL withUserInfo:nil];
 }
 
+// 注册 URLPattern 对应的 ObjectHandler，需要返回一个 object 给调用方
 + (void)registerURLPattern:(NSString *)URLPattern toObjectHandler:(MGJRouterObjectHandler)handler
 {
     [[self sharedInstance] addURLPattern:URLPattern andObjectHandler:handler];
@@ -197,7 +214,7 @@ NSString *const MGJRouterParameterUserInfo = @"MGJRouterParameterUserInfo";
     }
 }
 
-// 添加URLPattern 与 handler 到全局路由字典中
+// 注册 URLPattern 对应的 Handler。在全局路由字典中保存
 - (void)addURLPattern:(NSString *)URLPattern andObjectHandler:(MGJRouterObjectHandler)handler
 {
     NSMutableDictionary *subRoutes = [self addURLPattern:URLPattern];
@@ -282,6 +299,7 @@ NSString *const MGJRouterParameterUserInfo = @"MGJRouterParameterUserInfo";
                 subRoutes = subRoutes[key];
                 break;
             } else if ([key hasPrefix:@":"]) {
+                // 按照URL模版的思路继续匹配
                 found = YES;
                 subRoutes = subRoutes[key];
                 NSString *newKey = [key substringFromIndex:1];
