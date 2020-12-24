@@ -10,4 +10,6 @@
 
 @interface DemoDetailViewController : UIViewController
 
+- (instancetype)initWithId:(NSString *)idString withName:(NSString *)name;
+
 @end

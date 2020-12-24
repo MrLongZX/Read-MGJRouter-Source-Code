@@ -7,11 +7,13 @@
 //
 
 #import "DemoListViewController.h"
+#import "PublicProtocl.h"
+#import "ModuleProtocolManager.h"
 
 static NSMutableDictionary *titleWithHandlers;
 static NSMutableArray *titles;
 
-@interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate, DetailModuleEntryProtocol>
 @property (nonatomic) UITableView *tableView;
 @end
 
@@ -37,6 +39,8 @@ static NSMutableArray *titles;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"组件间调用" style:UIBarButtonItemStylePlain target:self action:@selector(didClickDetailButton)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,6 +67,13 @@ static NSMutableArray *titles;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UIViewController *viewController = ((ViewControllerHandler)titleWithHandlers[titles[indexPath.row]])();
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)didClickDetailButton
+{
+    id< DetailModuleEntryProtocol > DetailModuleEntry = [ModuleProtocolManager serviceProvideForProtocol:@protocol(DetailModuleEntryProtocol)];
+    UIViewController *detailVC = [DetailModuleEntry detailViewControllerWithId:@"详情界面" withName:@"我的购物车"];
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 @end

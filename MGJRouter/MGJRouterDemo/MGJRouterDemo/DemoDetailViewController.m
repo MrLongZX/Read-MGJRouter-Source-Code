@@ -116,7 +116,7 @@
         NSInteger padding = 20;
         NSInteger viewWith = self.view.frame.size.width;
         NSInteger viewHeight = self.view.frame.size.height - 64;
-        _resultTextView = [[UITextView alloc] initWithFrame:CGRectMake(padding, padding + 64, viewWith - padding * 2, viewHeight - padding * 2)];
+        _resultTextView = [[UITextView alloc] initWithFrame:CGRectMake(padding, padding + 70, viewWith - padding * 2, viewHeight - padding * 2)];
         _resultTextView.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
         _resultTextView.layer.borderWidth = 1;
         _resultTextView.editable = NO;
@@ -256,6 +256,16 @@
     } else {
         [self appendLog:@"同步获取 Object 失败"];
     }
+}
+
+- (instancetype)initWithId:(NSString *)idString withName:(NSString *)name
+{
+    self = [super init];
+    if (self) {
+        NSLog(@"组件间调用测试：%@，%@", idString, name);
+        _selectedSelector = @selector(demoBasicUsage);
+    }
+    return self;
 }
 
 @end

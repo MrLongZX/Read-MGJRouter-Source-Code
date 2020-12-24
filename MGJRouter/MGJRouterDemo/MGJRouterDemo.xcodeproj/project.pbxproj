@@ -15,6 +15,8 @@
 		6AA627921B157940003A6B2B /* MGJRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA627911B157940003A6B2B /* MGJRouter.m */; };
 		6AA6279F1B15AFC9003A6B2B /* DemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA6279E1B15AFC9003A6B2B /* DemoListViewController.m */; };
 		6AA627A21B15AFFE003A6B2B /* DemoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA627A11B15AFFE003A6B2B /* DemoDetailViewController.m */; };
+		A3E376EA25946B2F005AF4D8 /* ModuleProtocolManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E376E925946B2F005AF4D8 /* ModuleProtocolManager.m */; };
+		A3E376EE25946CDB005AF4D8 /* DetailModuleEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E376ED25946CDB005AF4D8 /* DetailModuleEntry.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,11 @@
 		6AA6279E1B15AFC9003A6B2B /* DemoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoListViewController.m; sourceTree = "<group>"; };
 		6AA627A01B15AFFE003A6B2B /* DemoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoDetailViewController.h; sourceTree = "<group>"; };
 		6AA627A11B15AFFE003A6B2B /* DemoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoDetailViewController.m; sourceTree = "<group>"; };
+		A3E376E825946B2F005AF4D8 /* ModuleProtocolManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleProtocolManager.h; sourceTree = "<group>"; };
+		A3E376E925946B2F005AF4D8 /* ModuleProtocolManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModuleProtocolManager.m; sourceTree = "<group>"; };
+		A3E376EB25946C6F005AF4D8 /* PublicProtocl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublicProtocl.h; sourceTree = "<group>"; };
+		A3E376EC25946CDB005AF4D8 /* DetailModuleEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailModuleEntry.h; sourceTree = "<group>"; };
+		A3E376ED25946CDB005AF4D8 /* DetailModuleEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailModuleEntry.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +74,7 @@
 		6AA6275D1B1574CA003A6B2B = {
 			isa = PBXGroup;
 			children = (
+				A3E376E725946B14005AF4D8 /* ModuleManager */,
 				6AA6278F1B157940003A6B2B /* MGJRouter */,
 				6AA627681B1574CA003A6B2B /* MGJRouterDemo */,
 				6AA627821B1574CA003A6B2B /* MGJRouterDemoTests */,
@@ -88,6 +96,8 @@
 			children = (
 				6AA6276D1B1574CA003A6B2B /* AppDelegate.h */,
 				6AA6276E1B1574CA003A6B2B /* AppDelegate.m */,
+				A3E376EC25946CDB005AF4D8 /* DetailModuleEntry.h */,
+				A3E376ED25946CDB005AF4D8 /* DetailModuleEntry.m */,
 				6AA6279D1B15AFC9003A6B2B /* DemoListViewController.h */,
 				6AA6279E1B15AFC9003A6B2B /* DemoListViewController.m */,
 				6AA627A01B15AFFE003A6B2B /* DemoDetailViewController.h */,
@@ -133,6 +143,17 @@
 			);
 			name = MGJRouter;
 			path = ../MGJRouter;
+			sourceTree = "<group>";
+		};
+		A3E376E725946B14005AF4D8 /* ModuleManager */ = {
+			isa = PBXGroup;
+			children = (
+				A3E376E825946B2F005AF4D8 /* ModuleProtocolManager.h */,
+				A3E376E925946B2F005AF4D8 /* ModuleProtocolManager.m */,
+				A3E376EB25946C6F005AF4D8 /* PublicProtocl.h */,
+			);
+			name = ModuleManager;
+			path = ../ModuleManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +217,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -237,8 +259,10 @@
 				6AA627921B157940003A6B2B /* MGJRouter.m in Sources */,
 				6AA6276F1B1574CA003A6B2B /* AppDelegate.m in Sources */,
 				6AA6276C1B1574CA003A6B2B /* main.m in Sources */,
+				A3E376EA25946B2F005AF4D8 /* ModuleProtocolManager.m in Sources */,
 				6AA627A21B15AFFE003A6B2B /* DemoDetailViewController.m in Sources */,
 				6AA6279F1B15AFC9003A6B2B /* DemoListViewController.m in Sources */,
+				A3E376EE25946CDB005AF4D8 /* DetailModuleEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
